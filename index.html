@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KyyHost - Layanan Digital Terpercaya</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Loading Screen Styles */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            color: white;
+        }
+
+        .loading-container {
+            text-align: center;
+            padding: 30px;
+            border-radius: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            box-shadow: 0 0 30px rgba(106, 17, 203, 0.5);
+            border: 2px solid #6a11cb;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .loading-logo {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #6a11cb;
+            text-shadow: 0 0 15px rgba(106, 17, 203, 0.8);
+        }
+
+        .loading-title {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .loading-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: #ddd;
+        }
+
+        .loading-bar-container {
+            width: 100%;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+            border: 1px solid #6a11cb;
+        }
+
+        .loading-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #6a11cb, #2575fc);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px rgba(106, 17, 203, 0.7);
+        }
+
+        .loading-text {
+            font-size: 1rem;
+            margin-top: 10px;
+            color: #aaa;
+        }
+
+        .loading-dots {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            margin: 0 5px;
+            background: #6a11cb;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+
+        .dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+            50% {
+                transform: scale(1.3);
+                opacity: 1;
+            }
+        }
+
+        /* Main Website Styles */
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://files.catbox.moe/1evmdx.jpeg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            line-height: 1.6;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+            position: relative;
+        }
+
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid #6a11cb;
+            margin: 0 auto 20px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(106, 17, 203, 0.7);
+        }
+
+        .profile-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 10px rgba(106, 17, 203, 0.5);
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: #ddd;
+        }
+
+        .qr-code {
+            width: 200px;
+            height: 200px;
+            margin: 20px auto;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 3px solid #2575fc;
+            box-shadow: 0 0 15px rgba(37, 117, 252, 0.5);
+        }
+
+        .qr-code img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .section-title {
+            text-align: center;
+            margin: 40px 0 20px;
+            font-size: 1.8rem;
+            color: #6a11cb;
+            text-shadow: 0 0 10px rgba(106, 17, 203, 0.5);
+        }
+
+        .menu {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            border: 1px solid #6a11cb;
+        }
+
+        .menu h2 {
+            margin-bottom: 15px;
+            color: #6a11cb;
+        }
+
+        .payment-methods {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .payment-method {
+            background: rgba(37, 117, 252, 0.2);
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: 1px solid #2575fc;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .product {
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid #6a11cb;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .product:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(106, 17, 203, 0.3);
+        }
+
+        .product h3 {
+            color: #6a11cb;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .price {
+            font-size: 1.1rem;
+            margin: 15px 0;
+            color: #ffcc00;
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 10px 5px;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(106, 17, 203, 0.4);
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(106, 17, 203, 0.6);
+        }
+
+        .btn-wa {
+            background: linear-gradient(45deg, #25D366, #128C7E);
+        }
+
+        .btn-telegram {
+            background: linear-gradient(45deg, #0088cc, #34aadc);
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .testimonial {
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            border: 1px solid #2575fc;
+        }
+
+        .testimonial h3 {
+            color: #6a11cb;
+            margin-bottom: 15px;
+        }
+
+        .customer-service {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .customer-service img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            border: 2px solid #6a11cb;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            border-top: 1px solid #333;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        .watermark {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.3);
+            z-index: 100;
+        }
+
+        @media (max-width: 768px) {
+            .products {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .profile-img {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .qr-code {
+                width: 180px;
+                height: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loading-container">
+            <div class="loading-logo">
+                <i class="fas fa-gamepad"></i>
+            </div>
+            <h1 class="loading-title">KyyHost</h1>
+            <p class="loading-subtitle">Loading Premium Services...</p>
+            
+            <div class="loading-dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+            
+            <div class="loading-bar-container">
+                <div class="loading-bar" id="loading-bar"></div>
+            </div>
+            
+            <p class="loading-text" id="loading-text">Initializing System...</p>
+        </div>
+    </div>
+
+    <!-- Main Website Content -->
+    <div class="container" id="main-content" style="display: none;">
+        <header>
+            <div class="profile-img">
+                <img src="https://files.catbox.moe/4sdfm0.jpeg" alt="Profile KyyHost">
+            </div>
+            <h1>Selamat Datang di Website KyyHost</h1>
+            <p class="tagline">Layanan Digital Terpercaya dan Berkualitas</p>
+            
+            <div class="qr-code">
+                <img src="https://files.catbox.moe/3ezexk.jpeg" alt="QR Code KyyHost">
+            </div>
+        </header>
+
+        <div class="menu">
+            <h2>Silahkan Pilih Metode Pembayaran di Bawah Ini</h2>
+            <div class="payment-methods">
+                <div class="payment-method">Data Akun Dana</div>
+                <div class="payment-method">KyyHost Nomor Dana: 6283857675195</div>
+            </div>
+        </div>
+
+        <h2 class="section-title">Layanan Kami</h2>
+        <div class="products">
+            <div class="product">
+                <h3>Open PT</h3>
+                <p class="price">Chat untuk menanyakan harga</p>
+                <a href="https://wa.me/6283857675195" class="btn btn-wa">Order Sekarang</a>
+            </div>
+            
+            <div class="product">
+                <h3>SC Bug/MD</h3>
+                <p class="price">Chat untuk menanyakan harga</p>
+                <a href="https://wa.me/6283857675195" class="btn btn-wa">Order Sekarang</a>
+            </div>
+            
+            <div class="product">
+                <h3>Base Bug</h3>
+                <p class="price">Chat untuk menanyakan harga</p>
+                <a href="https://wa.me/6283857675195" class="btn btn-wa">Order Sekarang</a>
+            </div>
+            
+            <div class="product">
+                <h3>Suntik All Sosmed</h3>
+                <p class="price">Chat untuk menanyakan harga</p>
+                <a href="https://wa.me/6283857675195" class="btn btn-wa">Order Sekarang</a>
+            </div>
+            
+            <div class="product">
+                <h3>Bahan Up Dabis</h3>
+                <p class="price">Chat untuk menanyakan harga</p>
+                <a href="https://wa.me/6283857675195" class="btn btn-wa">Order Sekarang</a>
+            </div>
+            
+            <div class="product">
+                <h3>Jasa Pasang SC</h3>
+                <p class="price">Chat untuk menanyakan harga</p>
+                <a href="https://wa.me/6283857675195" class="btn btn-wa">Order Sekarang</a>
+            </div>
+            
+            <div class="product">
+                <h3>MC</h3>
+                <p class="price">Chat untuk menanyakan harga</p>
+                <a href="https://wa.me/6283857675195" class="btn btn-wa">Order Sekarang</a>
+            </div>
+            
+            <div class="product">
+                <h3>Murbug VVIP</h3>
+                <p class="price">Chat untuk menanyakan harga</p>
+                <a href="https://wa.me/6283857675195" class="btn btn-wa">Order Sekarang</a>
+            </div>
+            
+            <div class="product">
+                <h3>Ress Panel</h3>
+                <p class="price">Chat untuk menanyakan harga</p>
+                <a href="https://wa.me/6283857675195" class="btn btn-wa">Order Sekarang</a>
+            </div>
+        </div>
+
+        <div class="contact-links">
+            <a href="https://t.me/Kyyxnew1" class="btn btn-telegram"><i class="fab fa-telegram"></i> Telegram</a>
+            <a href="https://wa.me/6283857675195" class="btn btn-wa"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+        </div>
+
+        <div class="testimonial">
+            <h3>Testimoni Telegram</h3>
+            <p>Lihat testimoni dari pelanggan kami di channel Telegram</p>
+            <a href="https://t.me/murbugfreekyy" class="btn btn-telegram">Lihat Testimoni</a>
+        </div>
+
+        <div class="testimonial">
+            <h3>Testimoni WhatsApp</h3>
+            <p>Lihat testimoni dari pelanggan kami di channel WhatsApp</p>
+            <a href="https://whatsapp.com/channel/0029VbBVoit1noz4GMBcWf" class="btn btn-wa">Lihat Testimoni</a>
+        </div>
+
+        <div class="customer-service">
+            <a href="https://chat.whatsapp.com/DXfAN7znN0J5pRi8g9psXC?mode=ems_copy_t">
+                <img src="https://files.catbox.moe/4sdfm0.jpeg" alt="Customer Service">
+            </a>
+            <h3>Customer Service</h3>
+            <p>Hubungi CS kami untuk informasi lebih lanjut</p>
+            <a href="https://chat.whatsapp.com/DXfAN7znN0J5pRi8g9psXC?mode=ems_copy_t" class="btn btn-wa">Hubungi CS</a>
+        </div>
+
+        <div class="footer">
+            <p>Order Jasa Create Website ke <a href="https://chat.whatsapp.com/DXfAN7znN0J5pRi8g9psXC?mode=ems_copy_t" class="btn" style="padding: 8px 15px; font-size: 0.9rem;">Order Sekarang</a></p>
+            <p>&copy; 2025 Created by Reviza. All rights reserved.</p>
+        </div>
+    </div>
+
+    <div class="watermark">REVIZAWANGYY | LONELY4YOU</div>
+
+    <script>
+        // Loading screen simulation
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadingScreen = document.getElementById('loading-screen');
+            const mainContent = document.getElementById('main-content');
+            const loadingBar = document.getElementById('loading-bar');
+            const loadingText = document.getElementById('loading-text');
+            
+            const loadingSteps = [
+                { width: 10, text: "Initializing System..." },
+                { width: 25, text: "Loading Assets..." },
+                { width: 45, text: "Connecting to Server..." },
+                { width: 65, text: "Loading Services..." },
+                { width: 85, text: "Finalizing..." },
+                { width: 100, text: "Ready!" }
+            ];
+            
+            let currentStep = 0;
+            
+            function updateLoadingBar() {
+                if (currentStep < loadingSteps.length) {
+                    loadingBar.style.width = loadingSteps[currentStep].width + '%';
+                    loadingText.textContent = loadingSteps[currentStep].text;
+                    currentStep++;
+                    
+                    // Random interval between steps for more natural feel
+                    const interval = 300 + Math.random() * 400;
+                    setTimeout(updateLoadingBar, interval);
+                } else {
+                    // Loading complete
+                    setTimeout(function() {
+                        loadingScreen.style.opacity = '0';
+                        setTimeout(function() {
+                            loadingScreen.style.display = 'none';
+                            mainContent.style.display = 'block';
+                            document.body.style.opacity = '1';
+                        }, 500);
+                    }, 500);
+                }
+            }
+            
+            // Start loading simulation
+            setTimeout(updateLoadingBar, 500);
+        });
+    </script>
+</body>
+</html>
